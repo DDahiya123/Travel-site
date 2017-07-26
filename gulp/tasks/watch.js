@@ -2,7 +2,6 @@ var gulp = require('gulp'),
 watch = require('gulp-watch'),
 browserSync = require('browser-sync').create();
 
-
 gulp.task('watch', function(){
   browserSync.init({
     notify: false,
@@ -11,16 +10,17 @@ gulp.task('watch', function(){
     }
   });
 
-  watch('../../index.html', function(){
+  watch('index.html', function(){
     browserSync.reload();
   });
 
-  watch('../../assets/css/**/*.css', function(){
+  watch('assets/css/**/*.css', function(){
     gulp.start('cssInject');
   });
 });
 
-return gulp.src('../../temp/styles/style.css')
 
-
-// this is an error..
+gulp.task('cssInject', ['style'], function(){
+  return gulp.src('temp/styles/style.css')
+  .pipe(browserSync.stream());
+});
